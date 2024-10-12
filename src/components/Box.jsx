@@ -177,7 +177,12 @@ const DraggableBoxes = () => {
       },
       name, // Store the name of the box
     }));
-    setBoxes((prevBoxes) => [...prevBoxes, ...newBoxes]);
+
+    // Filter out duplicates based on the name before adding
+    const existingBoxNames = boxes.map(box => box.name);
+    const filteredNewBoxes = newBoxes.filter(newBox => !existingBoxNames.includes(newBox.name));
+
+    setBoxes((prevBoxes) => [...prevBoxes, ...filteredNewBoxes]);
   };
 
   return (
@@ -218,7 +223,7 @@ const DraggableBoxes = () => {
                 headSize={6}
                 startAnchor={anchors.startAnchor}
                 endAnchor={anchors.endAnchor}
-                labels={`${connection.start} → ${connection.end}`}
+                // labels={`${connection.start} → ${connection.end}`}
               />
             );
           })}
