@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
 import Xarrow, { Xwrapper } from 'react-xarrows';
+import ProfileCard from './cards/Profile';
+import ContactInfoCard from './cards/Contact';
+import ProjectsCard from './cards/Project';
+import EngineeringCard from './cards/Engineering';
+import IntermediateCard from './cards/Inter';
+import SkillsCard from './cards/Skills';
+import Class10 from './cards/Class10';
 
 const Box = ({ id, style, onDoubleClick }) => {
   return (
@@ -23,35 +30,72 @@ const Box = ({ id, style, onDoubleClick }) => {
   );
 };
 
-// Modal Component
 const Modal = ({ isOpen, onClose, onSelect }) => {
-  const availableBoxes = ['Profile', '10th class', 'Intermediate', 'Engineering', 'Techzite2k24', 'Travelling_souls', 'Skills', 'Contact_info'];
+  const [selectedBox, setSelectedBox] = useState(null);
+  
+  const availableBoxes = [
+    { name: 'Profile', component: <ProfileCard /> },
+    { name: '10th class', component: <Class10 /> },
+    { name: 'Intermediate', component: <IntermediateCard /> },
+    { name: 'Engineering', component: <EngineeringCard /> },
+    { name: 'Projects', component: <ProjectsCard /> },
+    { name: 'Skills', component: <SkillsCard /> },
+    { name: 'Contact_info', component: <ContactInfoCard /> },
+  ];
+
+  const handleSelectBox = (box) => {
+    setSelectedBox(box);
+  };
+
+  const handleConfirm = () => {
+    if (selectedBox) {
+      onSelect([selectedBox.name]); // Pass selected box name to parent
+      onClose();
+    }
+  };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white rounded-md p-5">
-        <h2 className="text-xl mb-4">Select a Box to Add</h2>
-        {availableBoxes.map((box) => (
-          <div key={box} className="flex items-center mb-2">
-            <input type="checkbox" id={box} value={box} className="mr-2" />
-            <label htmlFor={box}>{box}</label>
+    <div className="fixed w-full h-screen inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="bg-white w-full h-[80vh] max-w-[1000px] rounded-md p-5 flex">
+        <div className="w-1/3 border-r pr-4">
+          <h2 className="text-xl mb-4">Select a Box</h2>
+          {availableBoxes.map((box) => (
+            <div
+              key={box.name}
+              className={`flex items-center mb-2 cursor-pointer ${selectedBox?.name === box.name ? 'bg-purple-200 rounded-md' : ''}`}
+              onClick={() => handleSelectBox(box)}
+            >
+              <label className='py-2 ps-3 font-semibold text-violet-700' htmlFor={box.name}>{box.name}</label>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-col min-w-[500px]">
+          <div className="flex items-center justify-end gap-2">
+            <button
+              className="bg-blue-600 text-white h-[30px] flex justify-center items-center rounded px-2"
+              onClick={handleConfirm}
+              disabled={!selectedBox}
+            >
+              <div className="mb-2">Confirm</div>
+            </button>
+            <button className="bg-red-600 text-white h-[30px] flex justify-center items-center rounded px-2" onClick={onClose}>
+              <div className="pb-2">Cancel</div>
+            </button>
           </div>
-        ))}
-        <button
-          className="bg-blue-600 text-white rounded px-4 py-2 mr-2"
-          onClick={() => {
-            const selectedBoxes = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map((checkbox) => checkbox.value);
-            onSelect(selectedBoxes);
-            onClose();
-          }}
-        >
-          Select
-        </button>
-        <button className="bg-red-600 text-white rounded px-4 py-2" onClick={onClose}>
-          Cancel
-        </button>
+          <div className="w-2/3 pl-4">
+            <h2 className="text-xl mb-4">Selected Box Details</h2>
+            {selectedBox ? (
+              <div>
+                <h3 className="font-bold">{selectedBox.name}</h3>
+                {selectedBox.component} {/* Render the selected component */}
+              </div>
+            ) : (
+              <p>Please select a box from the left.</p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -125,12 +169,13 @@ const DraggableBoxes = () => {
 
   // Handle adding boxes from modal selection
   const handleAddBoxes = (selectedBoxes) => {
-    const newBoxes = selectedBoxes.map((id, index) => ({
-      id,
+    const newBoxes = selectedBoxes.map((name, index) => ({
+      id: `${name}-${Date.now()}-${index}`, // Unique ID for each box
       defaultPosition: {
         x: 100 + index * 150, // Adjust position as needed
         y: 100,
       },
+      name, // Store the name of the box
     }));
     setBoxes((prevBoxes) => [...prevBoxes, ...newBoxes]);
   };
@@ -173,29 +218,18 @@ const DraggableBoxes = () => {
                 headSize={6}
                 startAnchor={anchors.startAnchor}
                 endAnchor={anchors.endAnchor}
-                labels={`${connection.start} -- ${connection.end}`}
-                labelSize={16}
-                labelColor="blue"
-                curveness={0.8}
-                gridBreak="20%"
+                labels={`${connection.start} → ${connection.end}`}
               />
             );
           })}
-
-          {/* Show instructions when selecting a target box */}
-          {startBox && (
-            <div style={{ position: 'absolute', top: 20, left: 20 }}>
-              Now select the destination box for the arrow from {startBox}.
-            </div>
-          )}
         </Xwrapper>
       </div>
 
       {/* Modal for selecting boxes */}
-      <Modal 
-        isOpen={modalOpen} 
-        onClose={() => setModalOpen(false)} 
-        onSelect={handleAddBoxes} 
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSelect={handleAddBoxes} // Pass down the selection function
       />
     </>
   );
