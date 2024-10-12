@@ -11,7 +11,12 @@
   },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-arrow": "^2.2.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
+    "react-draggable": "^4.4.6",
+    "react-xarrows": "^2.0.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

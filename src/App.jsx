@@ -1,12 +1,11 @@
 import React from 'react'
 import './App.css'
 import './index.css'
-
+import FlowDiagram from './components/Box'
+import DraggableBoxes from './components/Box'
 const App = () => {
   return (
-    <div className="flex items-center w-full h-screen bg-[black] justify-center">
-      <div className="text-[100px] font-bold text-[aqua]">Tailwind CSS Template</div>
-    </div>
+    <DraggableBoxes />
   )
 }
 
