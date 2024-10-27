@@ -12,9 +12,9 @@ const ProfileCard = () => {
               alt="Student Profile"
             />
         </div>
-        <div className="p-4 flex flex-col justify-between flex-grow bg-indigo-100">
+        <div className="p-4 flex flex-col justify-between flex-grow bg-purple-100">
           <div>
-            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+            <div className="uppercase tracking-wide text-sm text-purple-500 font-semibold">
               Web Developer
             </div>
             <h1 className="mt-1 text-lg font-bold text-black">
@@ -26,7 +26,7 @@ const ProfileCard = () => {
             </p>
           </div>
           <div className="mt-4">
-            <button className="text-white bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-full w-full">
+            <button className="text-white bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded-full w-full">
               Follow
             </button>
           </div>
