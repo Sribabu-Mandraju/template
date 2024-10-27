@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignIn from './auth/SignIn'
 import SignUp from './auth/SignUp'
 import DraggableBoxes2 from './components/Box3'
+import Grid from './game/Grid'
 
 const App = () => {
   return (
@@ -16,9 +17,11 @@ const App = () => {
         <Routes>
           {/* Define your route paths */}
           <Route path="/" element={<DraggableBoxes />} />
+          <Route path="/grid" element={<Grid />} />
           <Route path="/box" element={<DraggableBoxes2 />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signin" element={<SignIn />} />
+          
           {/* You can add more routes as per your app's structure */}
         </Routes>
       </div>

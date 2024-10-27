@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^11.11.10",
     "react": "^18.3.1",
     "react-arrow": "^2.2.1",
     "react-dnd": "^16.0.1",
