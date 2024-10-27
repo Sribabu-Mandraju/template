@@ -16,7 +16,7 @@ const App = () => {
       <div>
         <Routes>
           {/* Define your route paths */}
-          <Route path="/" element={<DraggableBoxes />} />
+          <Route path="/" element={<Grid />} />
           <Route path="/grid" element={<Grid />} />
           <Route path="/box" element={<DraggableBoxes2 />} />
           <Route path="/signup" element={<SignUp />} />
